@@ -43,6 +43,7 @@ jobs:
           repository: ariesclark/UdonAnalytics
           path: Packages/fyi.aries.udonanalytics
           clean: false
+          token: ${{ secrets.NUKE_GITHUB_TOKEN }}
           
       - name: Restore Cache
         uses: actions/cache@v4
