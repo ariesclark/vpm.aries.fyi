@@ -31,12 +31,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       
-      - uses: actions/checkout@v4 # check out this repo
-      - uses: actions/checkout@v4 # check out automation repo
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           repository: vrchat-community/package-list-action
           path: ${{env.pathToCi}}
-          clean: false # otherwise the local repo will no longer be checked out
+          clean: false
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ariesclark/UdonAnalytics
+          path: Packages/fyi.aries.udonanalytics
+          clean: false
           
       - name: Restore Cache
         uses: actions/cache@v4
@@ -47,9 +53,9 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
           
       - name: Build Package Version Listing
-        run: ${{env.pathToCi}}/build.cmd BuildMultiPackageListing --root ${{env.pathToCi}} --list-publish-directory $GITHUB_WORKSPACE/${{env.listPublishDirectory}}
+        run: ${{env.pathToCi}}/build.cmd BuildMultiPackageListing --root ${{env.pathToCi}} --list-publish-directory $GITHUB_WORKSPACE/${{env.listPublishDirectory}} --current-package-name fyi.aries.udonanalytics
         env:
-          GITHUB_TOKEN: ${{ secrets.NUKE_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
       - name: Setup Pages
         uses: actions/configure-pages@v5
